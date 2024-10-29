@@ -5,7 +5,8 @@ interface userInterface extends Document {
     email: string,
     name: string,
     password: string,
-    comparePassword: (password: string) => Promise<boolean>
+    comparePassword: (password: string) => Promise<boolean>,
+    public: () => { name:string, userId:string }
 }
 
 const userSchema = new Schema({
@@ -18,6 +19,9 @@ userSchema.methods.comparePassword = async function(password?: any): Promise<boo
     return typeof(password) === "string"?await bcrypt.compare(password, this.password):false
 }
 
+userSchema.methods.public = function(): { name:string, userId:string } {
+    return { name:this.name, userId:this._id }
+}
 userSchema.pre("save", async function(next) {
     if (!this.isModified('password')) return next();
 

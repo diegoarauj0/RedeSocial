@@ -1,14 +1,15 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import validator from "validator";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import userModel from "../database/schemas/user";
 import config from '../../config/JTW.json';
+import { isValidObjectId } from "mongoose";
 
 class UserController {
     public async register(req: Request, res: Response): Promise<void> {
         let error:{ email:string[], password:string[], name:string[] } = { email:[], password:[], name:[] }
         const body = req.body
-
+        
         if (!validator.isEmail(body.email || "")) { error.email.push("esse email não e valido") }
         if (!validator.isStrongPassword(body.password || "", {minLength: 8})) { error.password?.push("senha tem que ter no minimo 8 caracteres")}
         if (!validator.isStrongPassword(body.password || "", {pointsForContainingUpper:1, pointsForContainingLower:1, pointsForContainingNumber:1})) { error.password.push("senha tem que ter no minimo, uma letra maiuscula, uma letra minuscula e um numero")}
@@ -52,6 +53,44 @@ class UserController {
 
     public async logout(req: Request, res: Response): Promise<void> {
         res.status(200).cookie("session", "").json({ status:"logout" })
+    }
+
+    public async middleware(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            if (req.cookies.session == undefined || req.cookies.session == "") throw ""
+
+            const jwtPayload = jwt.verify(req.cookies.session, config.secret) as JwtPayload
+            const user = await userModel.findOne({ _id:jwtPayload.userId })
+
+            if (user == null) throw ""
+
+            req.userId = jwtPayload.userId
+
+            next()
+        } catch(reason) {res.status(401).cookie("session","").json({ status: "unauthorized"})}
+    }
+
+    public async get(req: Request, res: Response): Promise<void> {
+        try {
+            let userId = req.params.userId
+
+            if ((userId == undefined || userId == "") ) { userId = req.userId as string }
+            if (isValidObjectId(userId) == false) throw ""
+
+            const user = await userModel.findOne({ _id:userId })
+
+            if (user == null) throw ""
+
+            res.status(200).json({ user:user.public() })
+        } catch (reason) {res.status(404).json({ status:"not found" })}
+    }
+
+    public async delete(req: Request, res: Response): Promise<void> {
+        try {
+            const user = await userModel.findOneAndDelete({ _id:req.userId, userId:req.userId })
+            if (user == null) throw ""
+            res.status(200).json({ status:"deleted" })
+        } catch (reason) {res.status(401).cookie("session", "").json({ status: "unauthorized"})}
     }
 }
 
