@@ -18,7 +18,7 @@ export function PrivateRoute(props:PrivateRouteProps) {
         setAuth(false)
         setLoading(true)
 
-        if (!auth) {
+        if (auth === null) {
             setLoading(true)
             setAuth(false)
             return
