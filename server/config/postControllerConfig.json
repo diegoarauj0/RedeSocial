@@ -1,0 +1,26 @@
+{
+    "Get":{
+        "Query":{
+            "ParentPostLimit":{
+                "Default":0,
+                "Limit":5
+            },
+            "ChildrenLimit":{
+                "Default":0,
+                "Limit":50
+            }
+        }
+    },
+    "Feed":{
+        "Query":{
+            "FeedLimit":{
+                "Default":1,
+                "Limit":25
+            },
+            "ParentPostLimit":{
+                "Default":0,
+                "Limit":1
+            }
+        }
+    }
+}

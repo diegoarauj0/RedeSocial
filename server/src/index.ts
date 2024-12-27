@@ -1,6 +1,8 @@
+import { config } from "dotenv"
 import app from "./app"
-import { PORT } from "../config/expressConfig.json"
 
-app.start(PORT, async () => {
-    console.log(`http://localhost:${PORT}`)
+config()
+
+app.start(Number(process.env.PORT || "8080"), async () => {
+    console.log(`http://localhost:${Number(process.env.PORT || "8080")}`)
 })

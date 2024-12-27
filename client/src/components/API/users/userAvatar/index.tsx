@@ -1,5 +1,4 @@
 import Styled from "./styled"
-import { publicURL } from "../../../../config/API.json"
 
 export interface UserAvatarProps {
     avatar:{ ID:string | null, mimetype:string | null }
@@ -15,7 +14,7 @@ export function UserAvatar(props:UserAvatarProps) {
 
     return (
         <Styled.UserAvatar className="avatar">
-            <Styled.Img src={props.avatar === undefined || props.avatar.ID === null?"/images/avatar/default.png":`${publicURL}/images/user/avatar/${props.avatar?.ID}.${extname[props.avatar?.mimetype || "image/png"]}`} alt="" />
+            <Styled.Img src={props.avatar === undefined || props.avatar.ID === null?"/images/avatar/default.png":`${import.meta.env.VITE_publicURL}/images/user/avatar/${props.avatar?.ID}.${extname[props.avatar?.mimetype || "image/png"]}`} alt="" />
         </Styled.UserAvatar>
     )
 }

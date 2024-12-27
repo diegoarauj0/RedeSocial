@@ -2,7 +2,6 @@ import mongoose, { Schema, model, Document } from "mongoose"
 import bcrypt from "bcryptjs"
 import JWT from "jsonwebtoken"
 import validator from "validator"
-import JWTConfig from "../../../config/JTWConfig.json"
 
 export interface userPublicInterface {
     nickname: string;
@@ -224,7 +223,7 @@ userSchema.methods.createJWT = function(options?: JWT.SignOptions): string | JWT
         username:this.username,
         id:this.id,
         update:new Date(new Date().setMinutes(new Date().getMinutes() + 30))
-    }, JWTConfig.SECRET, options || { expiresIn:"30 days" })
+    }, process.env.SECRET || "", options || { expiresIn:"30 days" })
 }
 
 userSchema.path('birthday').validate(async function (birthday) {

@@ -1,4 +1,3 @@
-import { publicURL } from "../../../../config/API.json"
 import Styled from "./styled"
 
 export interface UserBannerProps {
@@ -13,6 +12,6 @@ export function UserBanner(props:UserBannerProps) {
     } 
 
     return (
-        <Styled.UserBanner className="banner" style={{ backgroundImage:`URL(${props.banner === undefined || props.banner?.ID === null?`/images/banner/default.png`:`${publicURL}/images/user/banner/${props.banner.ID}.${extname[props.banner.mimetype || "image/png"]}`})` }}></Styled.UserBanner>
+        <Styled.UserBanner className="banner" style={{ backgroundImage:`URL(${props.banner === undefined || props.banner?.ID === null?`/images/banner/default.png`:`${import.meta.env.VITE_publicURL}/images/user/banner/${props.banner.ID}.${extname[props.banner.mimetype || "image/png"]}`})` }}></Styled.UserBanner>
     )
 }

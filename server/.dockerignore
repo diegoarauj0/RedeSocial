@@ -1,0 +1,4 @@
+node_modules
+public/images/user/avatar/**
+public/images/user/banner/**
+build/**

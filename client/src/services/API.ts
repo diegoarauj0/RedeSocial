@@ -1,10 +1,9 @@
 import axios from "axios"
-import APIConfig from "../config/API.json"
 import { FeedQuery, FeedData, ThisTokenData, GetIsFollowingData, GetFollowingData, GetFollowersData, Response, Status, Code, UserData, GetUserQuery, GetFollowingQuery, GetFollowersQuery, GetIsFollowingQuery, GetUserData, FollowQuery, FollowData, UnfollowData, UnfollowQuery, GetPostQuery, GetPostData, PostData, PublishPostData, DeletePostQuery, DeletePostData, EditUserData, EditUserBody, AvatarUploadData, DeleteUserData } from "../types/API"
 
 export default (baseURL?:string) => {
     const APIInstance = axios.create({
-        baseURL:baseURL === undefined?APIConfig.baseURL:baseURL
+        baseURL:baseURL === undefined?import.meta.env.VITE_baseURL:baseURL
     })
 
     async function login(body:{ email:string, password:string }): Promise<{ user:UserData, token?:string, status:Status, code:Code }> {

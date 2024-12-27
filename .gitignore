@@ -130,10 +130,6 @@ dist
 .pnp.*
 
 # server
-server/config/**
 server/public/images/user/avatar/**
 server/public/images/user/banner/**
 server/build/**
-
-# client
-client/src/config/**

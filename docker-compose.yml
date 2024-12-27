@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  mongo_db:
+    image: mongo
+    restart: always
+    container_name: mongo
+  server:
+    build: ./server
+    container_name: server
+    command: npm start
+    depends_on:
+      - mongo_db
+    ports:
+      - "8080:8080"
+  client:
+    build: ./client
+    container_name: client
+    command: npm run preview
+    depends_on:
+      - server
+    ports:
+      - "4173:4173"

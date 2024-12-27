@@ -1,0 +1,18 @@
+{
+    "Following":{
+        "Query":{
+            "FollowingLimit":{
+                "Default":1,
+                "Limit":20
+            }
+        }
+    },
+    "Followers":{
+        "Query":{
+            "FollowersLimit":{
+                "Default":1,
+                "Limit":20
+            }
+        }
+    }
+}
