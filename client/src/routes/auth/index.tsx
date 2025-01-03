@@ -17,7 +17,7 @@ export function Auth() {
 
     if (token !== null) { window.open("/", "_self") }
 
-    const api = API("http://localhost:8080/api")
+    const api = API()
 
     let hideError = () => {}
 
